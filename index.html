@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xk09 tool | 6,000 Cursor Credits</title>
+  <meta name="description" content="6,000 Cursor Credits từ xk09Tool — giữ nhịp làm việc dài, không bị gián đoạn. Chỉ 195,000 VNĐ." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --bg:        #08080e;
+      --bg2:       #0d0d17;
+      --surface:   rgba(255,255,255,.042);
+      --surface2:  rgba(255,255,255,.068);
+      --border:    rgba(255,255,255,.075);
+      --border2:   rgba(255,255,255,.14);
+      --text:      #f0f2fa;
+      --muted:     #8890a8;
+      --faint:     rgba(255,255,255,.28);
+      --violet:    #7c5aed;
+      --violet2:   #a78bfa;
+      --cyan:      #22d3ee;
+      --green:     #34d399;
+      --r:         24px;
+      --r-sm:      16px;
+      --shadow-lg: 0 32px 96px rgba(0,0,0,.52);
+    }
+
+    /* ─── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: 16px;
+      color: var(--text);
+      background: var(--bg);
+      overflow-x: hidden;
+    }
+
+    /* ─── AMBIENT BACKGROUND ────────────────────────────────── */
+    .ambient {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .ambient-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(100px); opacity: .18;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    .orb-a { width: 700px; height: 700px; background: var(--violet); top: -18%; left: -12%; animation-duration: 22s; }
+    .orb-b { width: 500px; height: 500px; background: var(--cyan); top: 5%; right: -8%; opacity: .12; animation-duration: 18s; animation-delay: -6s; }
+    .orb-c { width: 400px; height: 400px; background: #7c3aed; bottom: -5%; left: 35%; opacity: .10; animation-duration: 26s; animation-delay: -10s; }
+
+    @keyframes drift {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(40px, 30px) scale(1.04); }
+      100% { transform: translate(-20px, -40px) scale(.97); }
+    }
+
+    /* grid noise */
+    .noise {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.65) 0%, transparent 80%);
+    }
+
+    /* ─── LAYOUT ─────────────────────────────────────────────── */
+    .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; position: relative; z-index: 1; }
+    section { padding: 100px 0; }
+
+    /* ─── NAV ────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 0;
+      transition: background .3s, backdrop-filter .3s, border-color .3s;
+    }
+    nav.scrolled {
+      background: rgba(8,8,14,.82);
+      backdrop-filter: blur(22px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -.025em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 9px;
+    }
+    .logo-mark {
+      width: 28px; height: 28px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      display: grid; place-items: center;
+      font-size: .7rem; font-weight: 800; color: #fff;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-links a {
+      font-size: .9rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; padding: 8px 14px; border-radius: 10px;
+      transition: color .2s, background .2s;
+    }
+    .nav-links a:hover { color: var(--text); background: var(--surface); }
+    .nav-cta {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: .86rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      color: #fff !important;
+      padding: 9px 18px !important;
+      border-radius: 12px !important;
+    }
+    .nav-cta:hover { background: linear-gradient(135deg, #9370ff, #38e8ff) !important; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(124,90,237,.3) !important; }
+
+    /* ─── BUTTONS ────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      border: 0; border-radius: var(--r-sm);
+      padding: 15px 26px;
+      font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: .95rem;
+      cursor: pointer; text-decoration: none;
+      transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease, background .2s;
+      position: relative; overflow: hidden;
+      will-change: transform;
+    }
+    .btn::after {
+      content: ""; position: absolute; inset: 0; opacity: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.12), transparent);
+      transition: opacity .2s;
+    }
+    .btn:hover::after { opacity: 1; }
+    .btn:hover { transform: translateY(-3px); }
+    .btn:active { transform: scale(.97) translateY(0); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--violet), #5b8dee);
+      color: #fff;
+      box-shadow: 0 12px 36px rgba(124,90,237,.28), inset 0 1px 0 rgba(255,255,255,.14);
+    }
+    .btn-primary:hover { box-shadow: 0 20px 50px rgba(124,90,237,.38); }
+
+    .btn-outline {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .btn-outline:hover { border-color: var(--border2); background: var(--surface2); }
+
+    .btn-sm { padding: 11px 20px; font-size: .86rem; }
+
+    /* ─── CHIP / BADGE ────────────────────────────────────────── */
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 14px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.05);
+      backdrop-filter: blur(12px);
+      font-size: .82rem; font-weight: 500; color: var(--faint);
+      letter-spacing: .03em;
+    }
+    .chip .live {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(52,211,153,.2);
+      animation: livepulse 2s ease-in-out infinite;
+    }
+    @keyframes livepulse { 50% { box-shadow: 0 0 0 6px rgba(52,211,153,.08); } }
+
+    /* ─── HERO ───────────────────────────────────────────────── */
+    .hero {
+      padding: 160px 0 80px;
+      position: relative;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .hero-left { max-width: 580px; }
+
+    .hero-tag { margin-bottom: 24px; }
+    .hero-tag .chip { font-family: "Plus Jakarta Sans", sans-serif; text-transform: uppercase; }
+
+    h1.headline {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(2.9rem, 6vw, 5.6rem);
+      font-weight: 800;
+      line-height: .95;
+      letter-spacing: -.035em;
+      margin: 0 0 22px;
+      text-wrap: balance;
+    }
+    h1.headline .grad {
+      background: linear-gradient(130deg, #fff 0%, #d4c4ff 45%, #a5f3fc 100%);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+    h1.headline .cursor-blink {
+      display: inline-block; width: 3px; height: .9em; border-radius: 2px;
+      background: var(--violet2); vertical-align: middle; margin-left: 4px;
+      animation: blink .9s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero-desc {
+      color: var(--muted); line-height: 1.8;
+      font-size: 1.02rem; font-weight: 400;
+      margin: 0 0 32px; max-width: 52ch;
+    }
+    .hero-desc strong { color: var(--text); font-weight: 500; }
+
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .hero-trust {
+      margin-top: 36px;
+      display: flex; align-items: center; gap: 16px;
+      flex-wrap: wrap;
+    }
+    .trust-avatars {
+      display: flex;
+    }
+    .trust-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 2px solid var(--bg);
+      background: linear-gradient(135deg, var(--violet), var(--cyan));
+      display: grid; place-items: center;
+      font-size: .7rem; font-weight: 700; color: #fff;
+      margin-left: -10px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+    .trust-avatars .trust-avatar:first-child { margin-left: 0; }
+    .trust-text { font-size: .85rem; color: var(--muted); }
+    .trust-text strong { color: var(--text); }
+
+    /* ─── HERO CARD / RIGHT ──────────────────────────────────── */
+    .card-glass {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      backdrop-filter: blur(24px);
+      box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.07);
+      position: relative; overflow: hidden;
+    }
+    .card-glass::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+    }
+
+    .product-card {
+      padding: 28px;
+    }
+
+    .product-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 22px;
+    }
+    .product-logo {
+      font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800;
+      font-size: .9rem; letter-spacing: -.015em;
+    }
+    .traffic-dots { display: flex; gap: 6px; }
+    .td { width: 12px; height: 12px; border-radius: 50%; }
+    .td-r { background: #ff5f57; } .td-y { background: #ffbd2e; } .td-g { background: #28c840; }
+
+    .credit-display {
+      background: linear-gradient(135deg, rgba(124,90,237,.15), rgba(34,211,238,.08));
+      border: 1px solid rgba(124,90,237,.2);
+      border-radius: 20px;
+      padding: 20px 22px;
+      margin-bottom: 18px;
+    }
+    .credit-label { font-size: .78rem; font-weight: 500; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 6px; }
+    .credit-number {
+      font-family: "Plus Jakarta Sans", sans-serif; font-size: 2.8rem; font-weight: 800;
+      letter-spacing: -.03em; color: #fff; line-height: 1;
+      display: flex; align-items: baseline; gap: 4px;
+    }
+    .credit-number span { font-size: 1.1rem; color: var(--muted); font-weight: 400; }
+    .credit-bar {
+      margin-top: 12px; height: 6px; border-radius: 999px;
+      background: rgba(255,255,255,.08); overflow: hidden;
+    }
+    .credit-fill {
+      height: 100%; border-radius: 999px;
+      background: linear-gradient(90deg, var(--violet), var(--cyan));
+      width: 0;
+      transition: width 1.6s cubic-bezier(.4,0,.2,1);
+    }
+
+    .product-meta {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      margin-bottom: 18px;
+    }
+    .meta-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 12px 14px;
+    }
+    .meta-label { font-size: .75rem; color: var(--muted); margin-bottom: 3px; }
+    .meta-val { font-family: "Plus Jakarta Sans", sans-serif; font-size: .95rem; font-weight: 700; }
+
+    .product-price-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 16px; border-top: 1px solid var(--border);
+    }
+    .price-tag {
+      font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800;
+      font-size: 2rem; letter-spacing: -.033em;
+    }
+    .price-tag sup { font-size: .9rem; vertical-align: super; font-weight: 600; }
+    .price-note { font-size: .8rem; color: var(--muted); }
+
+    /* floating badges on card */
+    .float-badge {
+      position: absolute;
+      background: rgba(8,8,14,.9);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: .78rem; font-weight: 500;
+      backdrop-filter: blur(12px);
+      pointer-events: none;
+      animation: floatY 3.5s ease-in-out infinite;
+    }
+    .float-badge.badge-a {
+      top: -14px; right: 20px;
+      color: var(--green);
+      border-color: rgba(52,211,153,.18);
+      background: rgba(52,211,153,.08);
+      animation-delay: 0s;
+    }
+    .float-badge.badge-b {
+      bottom: -46px; left: 24px;
+      color: var(--cyan);
+      border-color: rgba(34,211,238,.18);
+      background: rgba(34,211,238,.06);
+      animation-delay: -1.2s;
+    }
+    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    /* ─── SECTION HEADER ────────────────────────────────────── */
+    .section-header { max-width: 680px; margin-bottom: 52px; }
+    .section-label {
+      font-family: "Plus Jakarta Sans", sans-serif; font-size: .8rem; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      color: var(--violet2); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::before {
+      content: ""; width: 20px; height: 1px; background: var(--violet2);
+    }
+    h2.section-title {
+      font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      letter-spacing: -.033em; line-height: 1.05;
+      margin: 0 0 14px;
+    }
+    .section-desc {
+      color: var(--muted); font-size: 1.02rem;
+      line-height: 1.8; font-weight: 400;
+      margin: 0;
+    }
+
+    /* ─── FEATURE GRID ───────────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 26px;
+      transition: border-color .25s, background .25s, transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+      position: relative;
+    }
+    .feature::after {
+      content: ""; position: absolute; inset: 0; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(124,90,237,.07), transparent);
+      opacity: 0; transition: opacity .25s;
+    }
+    .feature:hover { background: rgba(124,90,237,.04); border-color: var(--border2); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,.28); }
+    .feature:hover::after { opacity: 1; }
+
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      display: grid; place-items: center; margin-bottom: 18px;
+      font-size: 1.25rem;
+      transition: border-color .25s, background .25s;
+    }
+    .feature:hover .feature-icon {
+      background: rgba(124,90,237,.12); border-color: rgba(124,90,237,.25);
+    }
+    .feature h3 {
+      font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700;
+      font-size: 1.05rem; letter-spacing: -.03em;
+      margin: 0 0 8px;
+    }
+    .feature p { color: var(--muted); font-size: .9rem; line-height: 1.7; margin: 0; font-weight: 400; }
+
+    /* ─── USE CASES ──────────────────────────────────────────── */
+    .use-cases { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .use-case {
+      padding: 24px 26px;
+      border-radius: var(--r);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex; gap: 18px; align-items: flex-start;
+      transition: border-color .25s, transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+    }
+    .use-case:hover { border-color: var(--border2); transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,.32); }
+    .use-num {
+      flex: 0 0 auto; width: 36px; height: 36px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--violet), #5b8dee);
+      display: grid; place-items: center;
+      font-family: "Plus Jakarta Sans", sans-serif; font-size: .85rem; font-weight: 800;
+      color: #fff; box-shadow: 0 4px 12px rgba(124,90,237,.3);
+    }
+    .use-body h4 {
+      font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700;
+      font-size: 1rem; letter-spacing: -.02em;
+      margin: 0 0 6px;
+    }
+    .use-body p { color: var(--muted); font-size: .88rem; line-height: 1.65; margin: 0; font-weight: 400; }
+
+    /* ─── COMPARE TABLE ──────────────────────────────────────── */
+    .compare-wrap {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px;
+    }
+    .compare-card {
+      padding: 30px;
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .compare-card.featured {
+      background: linear-gradient(160deg, rgba(124,90,237,.10), rgba(34,211,238,.05));
+      border-color: rgba(124,90,237,.28);
+      box-shadow: 0 0 0 1px rgba(124,90,237,.1), var(--shadow-lg);
+    }
+    .compare-card .ctag {
+      font-family: "Plus Jakarta Sans", sans-serif; font-size: .76rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+    }
+    .compare-card.featured .ctag { color: var(--violet2); }
+    .compare-card .ctitle {
+      font-family: "Plus Jakarta Sans", sans-serif; font-size: 1.4rem; font-weight: 800;
+      letter-spacing: -.03em; margin-bottom: 6px;
+    }
+    .compare-card .cprice {
+      font-family: "Plus Jakarta Sans", sans-serif; font-size: 2.6rem; font-weight: 800;
+      letter-spacing: -.03em; line-height: 1;
+    }
+    .compare-card .cprice sup { font-size: 1.1rem; vertical-align: super; }
+    .compare-card .cper { font-size: .85rem; color: var(--muted); margin-top: 4px; }
+    .compare-divider { height: 1px; background: var(--border); margin: 22px 0; }
+    .compare-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    .compare-list li {
+      display: flex; gap: 10px; align-items: flex-start;
+      font-size: .9rem; color: var(--muted); font-weight: 400;
+    }
+    .compare-list li .check-icon {
+      flex: 0 0 auto; width: 18px; height: 18px; border-radius: 6px;
+      background: rgba(52,211,153,.12); border: 1px solid rgba(52,211,153,.25);
+      display: grid; place-items: center; margin-top: 1px;
+      font-size: .62rem; color: var(--green);
+    }
+    .compare-list li .x-icon {
+      flex: 0 0 auto; width: 18px; height: 18px; border-radius: 6px;
+      background: rgba(255,255,255,.04); border: 1px solid var(--border);
+      display: grid; place-items: center; margin-top: 1px;
+      font-size: .62rem; color: var(--muted);
+    }
+    .featured-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .75rem; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+      background: rgba(124,90,237,.15); border: 1px solid rgba(124,90,237,.25);
+      color: var(--violet2); margin-bottom: 12px; font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    /* ─── CTA SECTION ────────────────────────────────────────── */
+    .cta-section {
+      position: relative;
+    }
+    .cta-glow {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(124,90,237,.16), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: stretch;
+    }
+    .cta-copy { padding: 40px; }
+    .cta-copy .section-label { margin-bottom: 18px; }
+    .cta-copy h2 { margin-bottom: 14px; }
+    .cta-copy p { color: var(--muted); line-height: 1.8; font-size: .98rem; font-weight: 400; margin: 0 0 28px; }
+
+    .cta-box {
+      padding: 32px;
+      display: flex; flex-direction: column; justify-content: center; gap: 16px;
+      background: linear-gradient(160deg, rgba(124,90,237,.10), rgba(8,8,14,.95));
+    }
+    .cta-box h3 {
+      font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800;
+      font-size: 1.4rem; letter-spacing: -.03em; margin: 0;
+    }
+    .cta-box .price-line {
+      display: flex; align-items: baseline; gap: 6px;
+    }
+    .cta-box .big-price {
+      font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800;
+      font-size: 3rem; letter-spacing: -.03em; color: #fff;
+    }
+    .cta-box .price-currency { font-size: 1.1rem; color: var(--muted); }
+    .cta-box .cta-meta { font-size: .84rem; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .cta-box .cta-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+
+    .step-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: .8rem; font-weight: 500; color: var(--muted); padding: 7px 12px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
+    }
+    .step-badge .s-num {
+      width: 18px; height: 18px; border-radius: 6px;
+      background: rgba(124,90,237,.2); display: grid; place-items: center;
+      font-size: .7rem; font-weight: 800; color: var(--violet2);
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      padding: 32px 0 40px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-brand {
+      font-family: "Plus Jakarta Sans", sans-serif; font-size: .9rem; font-weight: 700;
+      color: var(--muted);
+    }
+    .footer-right { font-size: .82rem; color: var(--muted); opacity: .6; }
+
+    /* ─── TOAST ──────────────────────────────────────────────── */
+    .toast {
+      position: fixed; left: 50%; bottom: 28px;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(8,8,14,.95);
+      border: 1px solid rgba(52,211,153,.25);
+      color: var(--green); font-size: .88rem; font-weight: 600;
+      padding: 12px 20px; border-radius: 999px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 0 1px rgba(52,211,153,.06);
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s, transform .25s;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      display: flex; align-items: center; gap: 8px;
+      z-index: 999;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast-icon { font-size: .95rem; }
+
+    /* ─── REVEAL ANIMATIONS ──────────────────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transition: opacity .7s ease, transform .7s cubic-bezier(.22,.61,.36,1);
+    }
+    [data-reveal="up"]    { transform: translateY(32px); }
+    [data-reveal="left"]  { transform: translateX(-24px); }
+    [data-reveal="right"] { transform: translateX(24px); }
+    [data-reveal="scale"] { transform: scale(.96); }
+    [data-reveal].revealed { opacity: 1; transform: none; }
+
+    /* ─── 3D TILT ─────────────────────────────────────────────── */
+    .tiltable { transform-style: preserve-3d; }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 1000px) {
+      .hero-inner, .cta-inner, .compare-wrap { grid-template-columns: 1fr; }
+      .hero-inner { gap: 40px; }
+      .cta-copy { padding: 28px; }
+      .features-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .use-cases { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      h1.headline { font-size: clamp(2.5rem, 11vw, 3.5rem); }
+      section { padding: 72px 0; }
+      .hero { padding: 120px 0 60px; }
+      .hero-actions .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient" aria-hidden="true">
+    <div class="ambient-orb orb-a"></div>
+    <div class="ambient-orb orb-b"></div>
+    <div class="ambient-orb orb-c"></div>
+  </div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="wrap nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-mark">X</div>
+        xk09 tool
+      </a>
+      <div class="nav-links">
+        <a href="#features">Tính năng</a>
+        <a href="#use-cases">Cách dùng</a>
+        <a href="#pricing">Giá</a>
+        <a href="#cta" class="nav-cta">Mua ngay →</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <div class="hero-left">
+          <div class="hero-tag" data-reveal="up">
+            <div class="chip">
+              <span class="live"></span>
+              <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;letter-spacing:.06em;font-size:.79rem;text-transform:uppercase;">xk09Tool · Cursor Credits</span>
+            </div>
+          </div>
+
+          <h1 class="headline" data-reveal="up" style="transition-delay:.08s">
+            <span id="typed-text" class="grad"></span><span class="cursor-blink" aria-hidden="true"></span>
+          </h1>
+
+          <p class="hero-desc" data-reveal="up" style="transition-delay:.16s">
+            Gói <strong>6,000 Cursor Credits</strong> dành cho developer cần giữ nhịp làm việc dài. Không bị ngắt quãng, không phải dừng giữa chừng —&nbsp;chỉ cần chốt một lần và code đến hết.
+          </p>
+
+          <div class="hero-actions" data-reveal="up" style="transition-delay:.24s">
+            <a class="btn btn-primary" href="#cta">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Inbox "CREDIT" ngay
+            </a>
+            <a class="btn btn-outline" href="#pricing">Xem so sánh giá</a>
+          </div>
+
+          <div class="hero-trust" data-reveal="up" style="transition-delay:.32s">
+            <div class="trust-text"><strong>6,000 credits</strong> · Thanh toán một lần · Hỗ trợ qua Discord</div>
+          </div>
+        </div>
+
+        <!-- PRODUCT CARD -->
+        <div data-reveal="scale" style="transition-delay:.12s; position:relative; margin-top: 18px; padding: 34px 0 0;">
+          <div class="float-badge badge-a">✦ Giữ flow xuyên suốt</div>
+          <div class="card-glass product-card tiltable" id="hero-card">
+            <div class="product-header">
+              <div class="product-logo">
+                <span style="color:var(--violet2)">xk09</span> tool
+              </div>
+              <div class="traffic-dots" aria-hidden="true">
+                <div class="td td-r"></div>
+                <div class="td td-y"></div>
+                <div class="td td-g"></div>
+              </div>
+            </div>
+
+            <div class="credit-display">
+              <div class="credit-label">Cursor Credits</div>
+              <div class="credit-number" id="credit-count">0<span>credits</span></div>
+              <div class="credit-bar"><div class="credit-fill" id="credit-fill"></div></div>
+            </div>
+
+            <div class="product-meta">
+              <div class="meta-item">
+                <div class="meta-label">Platform</div>
+                <div class="meta-val" style="color:var(--cyan)">Cursor IDE</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Brand</div>
+                <div class="meta-val">xk09 tool</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Giao dịch</div>
+                <div class="meta-val" style="color:var(--green)">Nhanh</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Hỗ trợ</div>
+                <div class="meta-val" style="color:var(--green)">Online</div>
+              </div>
+            </div>
+
+            <div class="product-price-row">
+              <div>
+                <div class="price-tag"><sup>₫</sup>195,000</div>
+                <div class="price-note">Thanh toán một lần</div>
+              </div>
+              <a class="btn btn-primary btn-sm" href="#cta">Mua ngay →</a>
+            </div>
+          </div>
+          <div class="float-badge badge-b">⚡ 6,000 credits · 195k VNĐ</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features">
+      <div class="wrap">
+        <div class="section-header" data-reveal="up">
+          <div class="section-label">Tại sao chọn gói này</div>
+          <h2 class="section-title">Thiết kế cho người cần hiệu suất thực chiến</h2>
+          <p class="section-desc">Không countdown, không màu mè. Chỉ có đủ credits để bạn hoàn thành công việc mà không bị gián đoạn.</p>
+        </div>
+
+        <div class="features-grid" data-reveal="up" style="transition-delay:.1s">
+          <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <h3>Không ngắt flow</h3>
+            <p>6,000 credits đủ cho một phiên làm việc dài. Code, debug, refactor — tất cả trong một lần nạp.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">💎</div>
+            <h3>Ngân sách thực tế</h3>
+            <p>195k gọn hơn gói tháng truyền thống. Phù hợp cho freelancer và dev cần linh hoạt theo dự án.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🎯</div>
+            <h3>Chốt nhanh, dùng ngay</h3>
+            <p>Chỉ cần inbox "CREDIT" — không form phức tạp, không chờ xét duyệt, credits về tức thì.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🔧</div>
+            <h3>Tương thích hoàn toàn</h3>
+            <p>Hoạt động với tất cả models và tính năng trên Cursor IDE. Không giới hạn loại tác vụ.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">📊</div>
+            <h3>Kiểm soát chi phí</h3>
+            <p>Biết trước chính xác bạn chi bao nhiêu. Không có phí ẩn, không auto-renew bất ngờ.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🛡️</div>
+            <h3>Giao dịch đáng tin</h3>
+            <p>xk09 tool đã phục vụ hàng trăm developer. Hỗ trợ trực tiếp nếu phát sinh vấn đề.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section id="use-cases">
+      <div class="wrap">
+        <div class="section-header" data-reveal="up">
+          <div class="section-label">Dùng để làm gì</div>
+          <h2 class="section-title">6,000 credits cho những tác vụ thực chiến</h2>
+          <p class="section-desc">Đủ dùng từ lúc bắt đầu feature đến khi lên production.</p>
+        </div>
+
+        <div class="use-cases">
+          <div class="use-case" data-reveal="up" style="transition-delay:.05s">
+            <div class="use-num">01</div>
+            <div class="use-body">
+              <h4>Refactor & tái cấu trúc codebase</h4>
+              <p>Tách file, đổi kiến trúc, dọn technical debt — làm từ đầu đến cuối mà không bị ngắt quãng.</p>
+            </div>
+          </div>
+          <div class="use-case" data-reveal="up" style="transition-delay:.1s">
+            <div class="use-num">02</div>
+            <div class="use-body">
+              <h4>Pair programming xây feature</h4>
+              <p>Build feature mới từ UI đến API, cùng với Cursor như một senior dev trong team.</p>
+            </div>
+          </div>
+          <div class="use-case" data-reveal="up" style="transition-delay:.15s">
+            <div class="use-num">03</div>
+            <div class="use-body">
+              <h4>Debug bài toán phức tạp</h4>
+              <p>Hỏi nhiều vòng, thử nhiều hướng, không sợ cạn credits giữa chừng khi chưa tìm ra nguyên nhân.</p>
+            </div>
+          </div>
+          <div class="use-case" data-reveal="up" style="transition-delay:.2s">
+            <div class="use-num">04</div>
+            <div class="use-body">
+              <h4>Polish trước khi release</h4>
+              <p>Viết test, tối ưu performance, review code và hoàn thiện mọi chi tiết trước khi lên production.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING COMPARE -->
+    <section id="pricing">
+      <div class="wrap">
+        <div class="section-header" data-reveal="up">
+          <div class="section-label">So sánh giá</div>
+          <h2 class="section-title">Rõ ràng từ đầu,<br>không có bất ngờ</h2>
+          <p class="section-desc">Biết chính xác bạn trả bao nhiêu và nhận được gì.</p>
+        </div>
+
+        <div class="compare-wrap">
+          <div class="card-glass compare-card" data-reveal="left">
+            <div class="ctag">Gói thông thường</div>
+            <div class="ctitle">Cursor Pro tháng</div>
+            <div class="cprice"><sup>$</sup>20</div>
+            <div class="cper">/ tháng · ~500,000 VNĐ</div>
+            <div class="compare-divider"></div>
+            <ul class="compare-list">
+              <li><span class="check-icon">✓</span> 500 fast requests / tháng</li>
+              <li><span class="check-icon">✓</span> Tự động gia hạn hàng tháng</li>
+              <li><span class="x-icon">✕</span> Phí cố định dù dùng ít</li>
+              <li><span class="x-icon">✕</span> Khó kiểm soát chi phí</li>
+              <li><span class="x-icon">✕</span> Không linh hoạt theo dự án</li>
+            </ul>
+          </div>
+
+          <div class="card-glass compare-card featured tiltable" data-reveal="right">
+            <div class="featured-label">⭐ Đề xuất</div>
+            <div class="ctag">xk09 tool</div>
+            <div class="ctitle">6,000 Cursor Credits</div>
+            <div class="cprice"><sup>₫</sup>195k</div>
+            <div class="cper">Một lần thanh toán · Không auto-renew</div>
+            <div class="compare-divider" style="border-color:rgba(124,90,237,.2)"></div>
+            <ul class="compare-list">
+              <li><span class="check-icon">✓</span> 6,000 credits sử dụng linh hoạt</li>
+              <li><span class="check-icon">✓</span> Không subscription, không bị trừ tiền</li>
+              <li><span class="check-icon">✓</span> Kiểm soát hoàn toàn chi tiêu</li>
+              <li><span class="check-icon">✓</span> Phù hợp theo từng dự án / sprint</li>
+              <li><span class="check-icon">✓</span> Giao dịch qua Messenger — nhanh &amp; gọn</li>
+            </ul>
+            <div style="margin-top:20px">
+              <a class="btn btn-primary" href="#cta" style="width:100%;justify-content:center">
+                Chọn gói này →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="cta">
+      <div class="cta-glow" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="card-glass cta-inner" data-reveal="scale">
+          <div class="cta-copy">
+            <div class="section-label">Chốt ngay hôm nay</div>
+            <h2 class="section-title" style="font-size:clamp(1.9rem,3vw,2.6rem)">Nếu bạn đã hiểu<br>giá trị — đừng chần chừ</h2>
+            <p>Một CTA rõ ràng là đủ. Inbox <strong style="color:var(--text)">"CREDIT"</strong> vào Messenger của xk09 tool và nhận ngay 6,000 Cursor Credits.</p>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:0">
+              <div class="step-badge"><div class="s-num">1</div>Bấm nút bên cạnh</div>
+              <div class="step-badge"><div class="s-num">2</div>Copy link</div>
+              <div class="step-badge"><div class="s-num">3</div>Inbox "CREDIT"</div>
+            </div>
+          </div>
+
+          <div class="card-glass cta-box" style="border-radius:0 26px 26px 0;border-left:1px solid rgba(124,90,237,.18)">
+            <h3>6,000 Cursor Credits</h3>
+            <div class="price-line">
+              <div class="big-price">195k</div>
+              <div class="price-currency">VNĐ</div>
+            </div>
+            <div class="cta-meta">
+              <span>Thanh toán một lần</span>
+              <span class="dot"></span>
+              <span>Nhận ngay</span>
+              <span class="dot"></span>
+              <span>xk09 tool</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+              <a class="btn btn-primary" id="main-cta" href="https://dessytool.example/cursor-credits">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copy link &amp; Inbox
+              </a>
+              <div style="font-size:.78rem;color:var(--muted);text-align:center;font-weight:300">
+                Link: <span style="color:var(--faint);font-family:monospace">dessytool.example/cursor-credits</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <div class="footer-brand">
+        <span style="color:var(--violet2)">Dessy</span>Tool
+      </div>
+      <div class="footer-right">© 2025 xk09 tool · 6,000 Cursor Credits · 195,000 VNĐ</div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon">✓</span>
+    Đã copy link!
+  </div>
+
+  <script>
+    /* ─── NAV SCROLL ──────────────────────────────────────── */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    /* ─── TYPING EFFECT ───────────────────────────────────── */
+    const lines = [
+      '6,000 Credits.\nGiữ nhịp đến cuối.',
+      'Code không gián đoạn.',
+      '195k. Một lần. Xong.'
+    ];
+    const el = document.getElementById('typed-text');
+    let li = 0, ci = 0, deleting = false, wait = 0;
+
+    function type() {
+      const line = lines[li];
+      if (!deleting) {
+        el.textContent = line.slice(0, ++ci);
+        if (ci === line.length) { deleting = true; wait = 60; setTimeout(type, 2400); return; }
+      } else {
+        if (--wait > 0) { setTimeout(type, 28); return; }
+        el.textContent = line.slice(0, --ci);
+        if (ci === 0) { deleting = false; li = (li + 1) % lines.length; }
+      }
+      setTimeout(type, deleting ? 28 : 46);
+    }
+    type();
+
+    /* ─── CREDIT COUNTER ANIMATION ────────────────────────── */
+    function animateCount(el, target, duration) {
+      let start = null;
+      const step = ts => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.childNodes[0].textContent = Math.floor(ease * target).toLocaleString('vi');
+        if (progress < 1) requestAnimationFrame(step);
+        else el.childNodes[0].textContent = target.toLocaleString('vi');
+      };
+      requestAnimationFrame(step);
+    }
+
+    let credited = false;
+    const creditEl = document.getElementById('credit-count');
+    const fillEl = document.getElementById('credit-fill');
+
+    /* ─── INTERSECTION OBSERVER (reveal + credit trigger) ── */
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          if (entry.target.closest('#hero-card') && !credited) {
+            credited = true;
+            setTimeout(() => {
+              animateCount(creditEl, 6000, 1400);
+              fillEl.style.width = '100%';
+            }, 400);
+          }
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+    /* trigger credit card when hero is visible */
+    const heroCard = document.getElementById('hero-card');
+    const heroIo = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !credited) {
+          credited = true;
+          setTimeout(() => {
+            animateCount(creditEl, 6000, 1400);
+            fillEl.style.width = '100%';
+          }, 600);
+          heroIo.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    heroIo.observe(heroCard);
+
+    /* ─── 3D TILT ─────────────────────────────────────────── */
+    document.querySelectorAll('.tiltable').forEach(card => {
+      let rafId;
+      card.addEventListener('mousemove', e => {
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          const r = card.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width  - .5;
+          const y = (e.clientY - r.top)  / r.height - .5;
+          card.style.transition = 'transform .08s linear, box-shadow .08s linear';
+          card.style.transform = `perspective(1200px) rotateX(${-y*9}deg) rotateY(${x*9}deg) translateY(-6px) scale(1.012)`;
+          card.style.boxShadow = `${-x*20}px ${-y*20}px 60px rgba(0,0,0,.25), var(--shadow-lg)`;
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        cancelAnimationFrame(rafId);
+        card.style.transition = 'transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s ease';
+        card.style.transform = '';
+        card.style.boxShadow = '';
+      });
+    });
+
+    /* ─── CTA COPY & REDIRECT ─────────────────────────────── */
+    const toast = document.getElementById('toast');
+    document.getElementById('main-cta').addEventListener('click', async e => {
+      e.preventDefault();
+      const link = e.currentTarget.href;
+      try { await navigator.clipboard.writeText(link); }
+      catch {
+        const ta = Object.assign(document.createElement('textarea'), { value: link });
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); ta.remove();
+      }
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+      setTimeout(() => window.location.href = link, 700);
+    });
+
+    /* ─── STAGGERED REVEAL ON LOAD ────────────────────────── */
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
